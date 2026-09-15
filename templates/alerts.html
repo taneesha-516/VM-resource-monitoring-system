@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block scripts %}<script defer src="{{ url_for('static', filename='js/alerts.js') }}"></script>{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">EVENT HISTORY</div><h1>Alerts</h1><p class="text-secondary">Resource thresholds and availability changes. Alerts resolve automatically on recovery.</p></div></div>
+<form id="filters" class="row g-3 mb-4">
+<div class="col-md-4"><label for="hostname" class="form-label">Virtual machine</label><select id="hostname" class="form-select"><option value="">All VMs</option></select></div>
+<div class="col-md-4"><label for="severity" class="form-label">Severity</label><select id="severity" class="form-select"><option value="">All severities</option><option value="warning">Warning</option><option value="critical">Critical</option></select></div>
+<div class="col-md-4"><label for="status" class="form-label">Status</label><select id="status" class="form-select"><option value="">All alerts</option><option value="active">Active</option><option value="resolved">Resolved</option></select></div>
+</form>
+<div class="table-responsive panel"><table class="table align-middle mb-0"><thead><tr><th>VM / Type</th><th>Severity</th><th>Message</th><th>Value / Threshold</th><th>Time</th><th>Status</th></tr></thead><tbody id="alert-rows"><tr><td colspan="6">Loading alerts…</td></tr></tbody></table></div>
+<div class="d-flex justify-content-between align-items-center mt-3"><span id="alert-count" class="text-secondary small"></span><div class="d-flex gap-2"><button id="previous" class="btn btn-outline-secondary btn-sm" type="button">Previous</button><button id="next" class="btn btn-outline-secondary btn-sm" type="button">Next</button></div></div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block scripts %}
+<script defer src="{{ url_for('static', filename='vendor/chart.umd.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/vm_detail.js') }}"></script>
+{% endblock %}
+{% block content %}
+<div id="vm-detail" data-hostname="{{ hostname }}">
+<a href="/" class="subtle-link">← All virtual machines</a>
+<div class="page-heading mt-3"><div><div class="eyebrow">VIRTUAL MACHINE DETAILS</div><h1>{{ hostname }} <span id="vm-status"></span></h1><p id="vm-meta" class="text-secondary">Loading…</p></div>
+<div><label for="history-window" class="form-label small text-secondary">History window</label><select id="history-window" class="form-select"><option value="10">Last 10 minutes</option><option value="30">Last 30 minutes</option><option value="60">Last 1 hour</option></select></div></div>
+<div id="vm-readings" class="row g-3 mb-4"></div>
+<div id="history-message" class="text-secondary small mb-3" role="status"></div>
+<div class="row g-4">
+{% for id, label in [('cpu','CPU usage'), ('memory','RAM usage'), ('disk','Disk usage'), ('network','Network traffic')] %}
+<div class="col-12 col-lg-6"><section class="chart-card"><h2>{{ label }}</h2><div class="chart-container"><canvas id="{{ id }}-chart" role="img" aria-label="{{ label }} over time"></canvas></div></section></div>
+{% endfor %}
+</div></div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="eyebrow">ABOUT THE PROJECT</div><h1>Understand your VMs.</h1>
+<p class="lead text-secondary mb-4">A simple, centralized view of a small virtual machine lab.</p>
+<div class="row g-4"><div class="col-lg-7"><section class="panel p-4"><h2>How it works</h2><ol class="about-steps"><li>A Python agent collects CPU, RAM, disk, network counters, and uptime with psutil.</li><li>Each VM sends a JSON sample to Flask every {{ config.METRIC_INTERVAL }} seconds.</li><li>SQLite stores samples and alert episodes.</li><li>This dashboard polls the API and draws historical charts.</li></ol><p class="mb-0">A hostname identifies one VM. Give cloned VMs unique hostnames or configure an agent hostname override.</p></section></div>
+<div class="col-lg-5"><section class="panel p-4"><h2>Monitoring rules</h2><dl class="rules"><dt>CPU warning</dt><dd>&gt; {{ config.CPU_THRESHOLD }}%</dd><dt>RAM critical</dt><dd>&gt; {{ config.MEMORY_THRESHOLD }}%</dd><dt>Disk critical</dt><dd>&gt; {{ config.DISK_THRESHOLD }}%</dd><dt>Offline critical</dt><dd>No sample for &gt; {{ config.OFFLINE_TIMEOUT }} seconds</dd></dl><p class="small text-secondary mb-0">Offline means the server stopped receiving samples. It can indicate a stopped agent or a network issue as well as a powered-off VM.</p></section></div></div>
+{% endblock %}

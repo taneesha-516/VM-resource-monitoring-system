@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block scripts %}<script defer src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><div class="eyebrow">INFRASTRUCTURE OVERVIEW</div><h1>Your virtual machines</h1>
+  <p class="text-secondary">Resource usage, availability, and alerts in one place.</p></div>
+  <div class="refresh-note"><span class="live-dot"></span> Auto refresh · <span id="updated-at">Connecting…</span></div>
+</div>
+<section class="row g-3 mb-5" aria-label="Summary">
+  {% for key, label, color in [('total_vms','Total VMs',''), ('online_vms','Online','text-success'), ('offline_vms','Offline','text-danger'), ('active_alerts','Active alerts','text-warning-emphasis')] %}
+  <div class="col-6 col-lg-3"><div class="summary-card"><div class="text-secondary">{{ label }}</div><div id="{{ key }}" class="summary-number {{ color }}">—</div></div></div>
+  {% endfor %}
+</section>
+<div class="d-flex justify-content-between align-items-center mb-3"><h2>Virtual machines</h2><a href="/alerts" class="subtle-link">View alerts →</a></div>
+<div id="vm-grid" class="row g-4"><div class="col-12 text-secondary">Loading virtual machines…</div></div>
+{% endblock %}

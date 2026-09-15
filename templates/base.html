@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} · VM Monitor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/common.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</head>
+<body data-refresh="{{ config.METRIC_INTERVAL }}">
+  <header class="topbar">
+    <div class="container-xl d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <a class="brand" href="/"><span class="brand-icon" aria-hidden="true">▥</span> VM Monitor</a>
+      <nav aria-label="Main navigation" class="d-flex gap-2 flex-wrap">
+        {% for href, label in [('/', 'Dashboard'), ('/vms', 'Virtual Machines'), ('/alerts', 'Alerts'), ('/about', 'About')] %}
+        <a href="{{ href }}" class="nav-item {{ 'selected' if request.path == href else '' }}"
+           {% if request.path == href %}aria-current="page"{% endif %}>{{ label }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </header>
+  <main class="container-xl py-4 py-md-5">
+    <div id="connection-error" class="alert alert-danger d-none" role="alert"></div>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="container-xl pb-4 text-secondary small">Virtual Machine Resource Monitoring and Alert System · Read-only monitoring</footer>
+</body>
+</html>
