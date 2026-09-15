@@ -1,0 +1,8 @@
+{
+  "server_url": "http://192.168.56.1:5000",
+  "metric_interval": 5,
+  "request_timeout": 4,
+  "hostname": null,
+  "ip_address": null,
+  "disk_path": "/"
+}
