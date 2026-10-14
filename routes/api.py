@@ -14,6 +14,13 @@ from models.alert import resolve_alert
 api = Blueprint("api", __name__, url_prefix="/api")
 
 
+@api.get("/health")
+def health():
+    """Identify this server and check database connectivity for launchers."""
+    get_db().execute("SELECT 1").fetchone()
+    return jsonify(service="vm-resource-monitor", status="ok")
+
+
 @api.before_request
 def refresh_status():
     sweep_offline()

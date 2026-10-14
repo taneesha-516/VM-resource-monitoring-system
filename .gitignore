@@ -3,3 +3,7 @@ __pycache__/
 .pytest_cache/
 database/*.db*
 *.log
+runtime/
+dist/
+static/downloads/*.tar.gz
+ubuntu-vm-screen.png

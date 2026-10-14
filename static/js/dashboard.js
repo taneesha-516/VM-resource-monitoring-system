@@ -21,6 +21,6 @@ async function refreshDashboard() {
       '</div><div class="text-secondary small">' + Monitor.escape(vm.ip_address) + '</div>' + resources +
       '<div class="card-footer-line d-flex justify-content-between gap-2"><span>Uptime ' + Monitor.uptime(metric.uptime) +
       '</span><span>' + (vm.status === "offline" ? "Last known values" : "Receiving metrics") + '</span></div></article></div>';
-  }).join("") : '<div class="col-12"><div class="empty-state"><h2>No virtual machines yet</h2><p>Start an agent or the demo generator to see your first metrics.</p><code>python demo_generator.py</code></div></div>';
+  }).join("") : '<div class="col-12"><div class="empty-state"><h2>Waiting for VM readings</h2><p>Start the monitoring agent inside your Ubuntu VM. Its resource readings will appear automatically.</p><p class="small text-secondary">For a simulated demonstration, run <code>python demo_generator.py</code>.</p></div></div>';
 }
 Monitor.poll(refreshDashboard);

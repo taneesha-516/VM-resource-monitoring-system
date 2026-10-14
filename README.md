@@ -2,6 +2,25 @@
 
 A 3rd-year CSE mini-project for monitoring several Ubuntu virtual machines from one laptop. Python agents push samples to Flask; SQLite stores the history; a Bootstrap dashboard shows current readings, Chart.js graphs, and alerts.
 
+## Live monitoring on this desktop
+
+This checkout is configured for the VirtualBox VM **taneesha_ubantu** using its
+existing NAT adapter. Run `scripts/Start-Monitoring.ps1` on Windows (or use the
+**VM Monitoring Dashboard** desktop shortcut after setup). The dashboard is
+[http://127.0.0.1:5000](http://127.0.0.1:5000); inside Ubuntu the agent reaches
+the same server at `http://10.0.2.2:5000`. The launcher binds to Windows loopback
+and uses `database/ubuntu-vm.db`, keeping the original demo database intact.
+
+The Ubuntu agent runs as `vm-monitor-agent.service`, starts when Ubuntu boots,
+and retries while the Windows server is unavailable. See
+[the live VM setup guide](docs/LIVE_VM_SETUP.md) for installation, restart,
+verification, and troubleshooting commands. CPU, RAM, disk, network counters,
+and uptime come from inside Ubuntu. The VM card uses the VirtualBox name
+`taneesha_ubantu`; its actual Linux hostname can remain `taneeshaubantu`.
+
+The default agent JSON now uses this NAT address and VM name. For other guests,
+generate a bundle with a distinct `--hostname` or edit their JSON configuration.
+
 ## Problem statement
 
 Checking CPU, memory and disk usage separately inside every VM becomes inconvenient as a lab grows. A VM can also stop sending data without anyone noticing. This project centralizes measurements and highlights resource pressure and missing heartbeats.
@@ -334,7 +353,7 @@ See [verification notes](docs/VERIFICATION.md) for the checks actually performed
 
 ## Security and limitations
 
-This first version is intended for a trusted local lab. It has no user login, agent authentication, TLS termination, or rate limiting. Any client able to reach the server can submit metrics or view the dashboard. Keep it on the lab network; do not publish it directly to the internet.
+This version is intended for a trusted local lab. It has no user login, agent authentication, TLS termination, or rate limiting. Any client able to reach the server can submit metrics or view the dashboard. The Windows live-VM launcher binds to loopback; keep other deployments on the lab network and do not publish them directly to the internet.
 
 The monitoring interface has no remote command execution or VM control. JSON validation, HTML escaping, size limits, parameterized SQL and transactions reduce common input failures.
 
@@ -346,7 +365,7 @@ Other limitations:
 - SQLite and per-VM latest-value queries target a small lab, not thousands of machines.
 - Database growth has no automatic retention policy: three VMs at five seconds create about 51,840 rows/day.
 - One root filesystem per agent; no per-process or per-interface breakdown.
-- The Flask development server and in-process monitor are for this local demonstration.
+- `app.py` uses the Flask development server for demonstrations; `server.py` uses Waitress for the live Windows setup. Offline detection runs in the server process, so the server must be running to detect missing agents.
 - Alerts are visible in the web UI only. No email or Telegram delivery.
 
 ## Demo presentation
